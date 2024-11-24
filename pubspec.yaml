@@ -60,7 +60,14 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-     - images/image-onboard-1.jpg
+    - images/pngs/image-arc.png
+    - images/pngs/image-onboard-1.png
+    - images/pngs/image-onboard-2.png
+    - images/pngs/image-onboard-3.png
+    - images/svgs/image-arrow.svg
+    - images/svgs/image-onboard-1.svg
+    - images/svgs/image-onboard-2.svg
+    - images/svgs/image-onboard-3.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
@@ -81,6 +88,12 @@ flutter:
     - family: Abel
       fonts:
         - asset: fonts/Abel-Regular.ttf
+    - family: GillSansMT
+      fonts:
+        - asset : fonts/gil-sans-mt.TTF
+    - family: SFUIDisplay
+      fonts:
+        - asset : fonts/SF-UI-Display-Semibold.ttf
 
 
     #   - family: Trajan Pro

@@ -12,6 +12,7 @@ class _SignupScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
+
         children: [
           Container(
             padding: EdgeInsets.only(left: 115, top: 140),

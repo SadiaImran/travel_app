@@ -67,15 +67,14 @@ flutter:
      - images/pngs/instagram.png
      - images/pngs/twitter.png
      - images/pngs/email.png
-    #splash and onboard images
-    - images/pngs/image-arc.png
-    - images/pngs/image-onboard-1.png
-    - images/pngs/image-onboard-2.png
-    - images/pngs/image-onboard-3.png
-    - images/svgs/image-arrow.svg
-    - images/svgs/image-onboard-1.svg
-    - images/svgs/image-onboard-2.svg
-    - images/svgs/image-onboard-3.svg
+     - images/pngs/image-arc.png
+     - images/pngs/image-onboard-1.png
+     - images/pngs/image-onboard-2.png
+     - images/pngs/image-onboard-3.png
+     - images/svgs/image-arrow.svg
+     - images/svgs/image-onboard-1.svg
+     - images/svgs/image-onboard-2.svg
+     - images/svgs/image-onboard-3.svg
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

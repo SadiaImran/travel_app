@@ -143,7 +143,7 @@ class SignInScreen extends StatelessWidget {
                 style: TextStyle(color: AppColors.greyText),
               ),
             ),
-            const SizedBox(height: 100),
+            const SizedBox(height: 50),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -172,7 +172,7 @@ class SignInScreen extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 40),
+
           ],
         ),
       ),

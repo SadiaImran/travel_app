@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:travel_app/colors.dart';
+import 'package:travel_app/screens/signin_screen.dart';
 
 class OnBoardScreen extends StatefulWidget {
   const OnBoardScreen({super.key});
@@ -195,7 +196,10 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 25),
           child: ElevatedButton(
             onPressed: () {
-              print("Button pressed !");
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SignInScreen()),
+              );
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.onBoardButtonBlue,

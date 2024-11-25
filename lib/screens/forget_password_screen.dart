@@ -18,7 +18,7 @@ class ForgetPasswordScreen extends StatelessWidget {
               radius: 20,
               backgroundColor: AppColors.lightGrey,
               child: IconButton(
-                icon: Image.asset('images/back-arrow.png'),
+                icon: Image.asset('images/pngs/back-arrow.png'),
                 onPressed: () {
                   // back functionality
                   Navigator.pop(context);
@@ -109,7 +109,7 @@ void showPopup(BuildContext context) {
                 radius: 20,
                 backgroundColor: AppColors.lightBackground,
                 child: Image.asset(
-                  'images/email.png',
+                  'images/pngs/email.png',
                 ),
               ),
               const SizedBox(height: 20),

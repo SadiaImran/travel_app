@@ -19,7 +19,7 @@ class SignInScreen extends StatelessWidget {
               radius: 20,
               backgroundColor: AppColors.lightGrey,
               child: IconButton(
-                icon: Image.asset('images/back-arrow.png'),
+                icon: Image.asset('images/pngs/back-arrow.png'),
                 onPressed: () {
                   // back functionality
                   Navigator.pop(context);
@@ -151,7 +151,7 @@ class SignInScreen extends StatelessWidget {
                   onPressed: () {
                     // Facebook login functionality
                   },
-                  icon: Image.asset('images/facebook.png'),
+                  icon: Image.asset('images/pngs/facebook.png'),
                   iconSize: 44,
                 ),
                 const SizedBox(width: 20),
@@ -159,7 +159,7 @@ class SignInScreen extends StatelessWidget {
                   onPressed: () {
                     //Instagram login functionality
                   },
-                  icon: Image.asset('images/instagram.png'),
+                  icon: Image.asset('images/pngs/instagram.png'),
                   iconSize: 44,
                 ),
                 const SizedBox(width: 20),
@@ -167,7 +167,7 @@ class SignInScreen extends StatelessWidget {
                   onPressed: () {
                     //Twitter login functionality
                   },
-                  icon: Image.asset('images/twitter.png'),
+                  icon: Image.asset('images/pngs/twitter.png'),
                   iconSize: 44,
                 ),
               ],

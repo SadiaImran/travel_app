@@ -60,6 +60,14 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
+      #signin images
+     - images/pngs/image-1.jpg
+     - images/pngs/back-arrow.png
+     - images/pngs/facebook.png
+     - images/pngs/instagram.png
+     - images/pngs/twitter.png
+     - images/pngs/email.png
+    #splash and onboard images
     - images/pngs/image-arc.png
     - images/pngs/image-onboard-1.png
     - images/pngs/image-onboard-2.png
@@ -68,6 +76,7 @@ flutter:
     - images/svgs/image-onboard-1.svg
     - images/svgs/image-onboard-2.svg
     - images/svgs/image-onboard-3.svg
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
@@ -85,12 +94,23 @@ flutter:
     - family: Geometr415
       fonts:
         - asset: fonts/geometr415-blk-bt-black.ttf
+
+    - family: sf-ui-display-semibold
+      fonts:
+        - asset: fonts/sf-ui-display-semibold.otf
+        
+    - family: sf-ui-display-regular
+      fonts:
+        - asset: fonts/sf-ui-display-regular.otf
+
     - family: Abel
       fonts:
         - asset: fonts/Abel-Regular.ttf
+        
     - family: GillSansMT
       fonts:
         - asset : fonts/gil-sans-mt.TTF
+        
     - family: SFUIDisplay
       fonts:
         - asset : fonts/SF-UI-Display-Semibold.ttf

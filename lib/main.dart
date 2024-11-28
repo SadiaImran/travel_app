@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:travel_app/screens/home_screen.dart';
 import 'package:travel_app/screens/splash_screen.dart';
 
 void main() {
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Travenor',
-      home: SplashScreen(),
+      home: HomeScreen(),
     );
   }
 }

@@ -68,6 +68,8 @@ flutter:
      - images/pngs/twitter.png
      - images/pngs/email.png
      - images/pngs/image-arc.png
+     - images/pngs/desti1.png
+     - images/pngs/desti2.png
      - images/pngs/image-onboard-1.png
      - images/pngs/image-onboard-2.png
      - images/pngs/image-onboard-3.png
@@ -75,7 +77,10 @@ flutter:
      - images/svgs/image-onboard-1.svg
      - images/svgs/image-onboard-2.svg
      - images/svgs/image-onboard-3.svg
-
+     - images/pngs/Vector1.png
+     - images/pngs/Notifications.png
+     - images/pngs/ExploretheBeautifulworld!.png
+     - images/pngs/avatar.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

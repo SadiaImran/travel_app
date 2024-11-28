@@ -16,7 +16,6 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Travenor',
-      home: HomeScreen(),
       home: SplashScreen(),
     );
   }

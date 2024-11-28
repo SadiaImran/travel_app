@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:travel_app/colors.dart';
 import 'package:travel_app/screens/forget_password_screen.dart';
+import 'package:travel_app/screens/home_screen.dart';
 import 'package:travel_app/screens/signup_screen.dart';
 
 class SignInScreen extends StatelessWidget {
@@ -103,7 +104,12 @@ class SignInScreen extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const HomeScreen(),
+                    ),
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.splashPrimaryBlue,

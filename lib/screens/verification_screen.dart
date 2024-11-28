@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
+import 'package:travel_app/screens/signin_screen.dart';
 
 
 class VerificationScreen extends StatefulWidget {
@@ -100,6 +101,12 @@ class _VerificationScreenState extends State<VerificationScreen> {
                 const SizedBox(height: 50),
                 ElevatedButton(
                   onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SignInScreen(),
+                      ),
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF0D6EFD),

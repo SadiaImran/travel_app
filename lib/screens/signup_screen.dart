@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:travel_app/screens/verification_screen.dart'; // Import VerificationScreen
+import 'package:travel_app/screens/signin_screen.dart';
+import 'package:travel_app/screens/verification_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -16,7 +17,8 @@ class _SignupScreenState extends State<SignUpScreen> {
   final TextEditingController _passwordController = TextEditingController();
 
   bool _isValidEmail(String email) {
-    final emailRegExp = RegExp(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$");
+    final emailRegExp =
+    RegExp(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$");
     return emailRegExp.hasMatch(email);
   }
 
@@ -38,10 +40,10 @@ class _SignupScreenState extends State<SignUpScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 children: [
-                  const SizedBox(height: 150),
-                  Center(
+                  const SizedBox(height: 100),
+                  const Center(
                     child: Column(
-                      children: const [
+                      children: [
                         Text(
                           'Sign up now',
                           style: TextStyle(
@@ -63,7 +65,6 @@ class _SignupScreenState extends State<SignUpScreen> {
                     ),
                   ),
                   const SizedBox(height: 60),
-                  // Username Input Field
                   TextField(
                     controller: _usernameController,
                     decoration: InputDecoration(
@@ -72,16 +73,11 @@ class _SignupScreenState extends State<SignUpScreen> {
                       hintText: 'Username',
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(14),
-                        borderSide: const BorderSide(color: Colors.transparent),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(14),
-                        borderSide: const BorderSide(color: Colors.transparent),
+                        borderSide: BorderSide.none,
                       ),
                     ),
                   ),
                   const SizedBox(height: 30),
-                  // Email Input Field
                   TextField(
                     controller: _emailController,
                     decoration: InputDecoration(
@@ -90,16 +86,11 @@ class _SignupScreenState extends State<SignUpScreen> {
                       hintText: 'Email',
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(14),
-                        borderSide: const BorderSide(color: Colors.transparent),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(14),
-                        borderSide: const BorderSide(color: Colors.transparent),
+                        borderSide: BorderSide.none,
                       ),
                     ),
                   ),
                   const SizedBox(height: 30),
-                  // Password Input Field
                   TextField(
                     controller: _passwordController,
                     obscureText: !_isPasswordVisible,
@@ -109,11 +100,7 @@ class _SignupScreenState extends State<SignUpScreen> {
                       hintText: 'Password',
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(14),
-                        borderSide: const BorderSide(color: Colors.transparent),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(14),
-                        borderSide: const BorderSide(color: Colors.transparent),
+                        borderSide: BorderSide.none,
                       ),
                       suffixIcon: IconButton(
                         icon: Icon(
@@ -130,8 +117,8 @@ class _SignupScreenState extends State<SignUpScreen> {
                     ),
                   ),
                   const SizedBox(height: 12),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 10),
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
@@ -149,7 +136,6 @@ class _SignupScreenState extends State<SignUpScreen> {
                     height: 56,
                     child: ElevatedButton(
                       onPressed: () {
-                        // Validation checks
                         if (_usernameController.text.isEmpty ||
                             _emailController.text.isEmpty ||
                             _passwordController.text.isEmpty) {
@@ -173,13 +159,13 @@ class _SignupScreenState extends State<SignUpScreen> {
                         if (_passwordController.text.length < 8) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              content: Text('Password must be at least 8 characters!'),
+                              content: Text(
+                                  'Password must be at least 8 characters!'),
                             ),
                           );
                           return;
                         }
 
-                        // Navigate to the VerificationScreen
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -203,16 +189,23 @@ class _SignupScreenState extends State<SignUpScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 30),
+                  const SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Text(
-                        'Already have an account',
+                        'Already have an account?',
                         style: TextStyle(color: Colors.grey),
                       ),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const SignInScreen(),
+                            ),
+                          );
+                        },
                         child: const Text(
                           'Sign in',
                           style: TextStyle(
@@ -220,6 +213,42 @@ class _SignupScreenState extends State<SignUpScreen> {
                             fontWeight: FontWeight.w600,
                           ),
                         ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  const Center(
+                    child: Text(
+                      "Or connect",
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          // Facebook login functionality
+                        },
+                        icon: Image.asset('images/pngs/facebook.png'),
+                        iconSize: 44,
+                      ),
+                      const SizedBox(width: 20),
+                      IconButton(
+                        onPressed: () {
+                          // Instagram login functionality
+                        },
+                        icon: Image.asset('images/pngs/instagram.png'),
+                        iconSize: 44,
+                      ),
+                      const SizedBox(width: 20),
+                      IconButton(
+                        onPressed: () {
+                          // Twitter login functionality
+                        },
+                        icon: Image.asset('images/pngs/twitter.png'),
+                        iconSize: 44,
                       ),
                     ],
                   ),

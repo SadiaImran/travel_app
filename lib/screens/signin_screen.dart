@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:travel_app/colors.dart';
 import 'package:travel_app/screens/forget_password_screen.dart';
+import 'package:travel_app/screens/signup_screen.dart';
 
 class SignInScreen extends StatelessWidget {
   const SignInScreen({super.key});
@@ -127,7 +128,10 @@ class SignInScreen extends StatelessWidget {
                 const Text("Don’t have an account? ",style: TextStyle(color: AppColors.greyText),),
                 TextButton(
                   onPressed: () {
-                    // Sign Up functionality
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SignUpScreen()),
+                    );
                   },
                   child: const Text(
                     "Sign up",

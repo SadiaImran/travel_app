@@ -43,7 +43,7 @@ void writeFeedback() {
   final DatabaseReference _feedbackRef =
   FirebaseDatabase.instance.ref().child('feedback');  // Reference to the 'feedback' path
   _feedbackRef.push().set({
-    'feedback': "Sadia's Feedback",
+    'feedback': "wajiha 2 Feedback",
     'timestamp': ServerValue.timestamp,
   });
 }

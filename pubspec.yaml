@@ -75,6 +75,11 @@ flutter:
      - images/svgs/image-onboard-1.svg
      - images/svgs/image-onboard-2.svg
      - images/svgs/image-onboard-3.svg
+     - images/pngs/avatar.png
+     - images/pngs/place1.png
+     - images/pngs/place2.png
+     - images/pngs/explore.png
+     - images/pngs/Notifications.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

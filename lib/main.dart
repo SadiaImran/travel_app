@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Travenor',
       home: HomeScreen(),
-      home: SplashScreen(),
+      //home: SplashScreen(),
     );
   }
 }

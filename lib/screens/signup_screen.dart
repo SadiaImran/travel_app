@@ -1,4 +1,6 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:travel_app/screens/signin_screen.dart';
 import 'package:travel_app/screens/verification_screen.dart';
 
@@ -11,15 +13,71 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignupScreenState extends State<SignUpScreen> {
   bool _isPasswordVisible = false;
-
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   bool _isValidEmail(String email) {
     final emailRegExp =
     RegExp(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$");
     return emailRegExp.hasMatch(email);
+  }
+
+  Future<void> _signUp({
+    required String email,
+    required String password,
+    required String username,}) async {
+    if (_usernameController.text.isEmpty ||
+        _emailController.text.isEmpty ||
+        _passwordController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('All fields must be filled!')),
+      );
+      return;
+    }
+
+    if (!_isValidEmail(_emailController.text)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please enter a valid email address!')),
+      );
+      return;
+    }
+
+    if (_passwordController.text.length < 8) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Password must be at least 8 characters!')),
+      );
+      return;
+    }
+
+    try {
+      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
+      if(userCredential.user != null){
+        String uid = userCredential.user!.uid;
+
+        DatabaseReference ref = FirebaseDatabase.instance.ref("users/$uid");
+        await ref.set({
+          "username" : username ,
+          "email" : email ,
+        });
+        print("User signed up and username saved successfully!");
+        // Navigate to verification screen or home
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) =>  SignInScreen()),
+        );
+      }
+
+    } on FirebaseAuthException catch (e) {
+      String message = e.message ?? 'An error occurred';
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(message)),
+      );
+    }
   }
 
   @override
@@ -116,64 +174,19 @@ class _SignupScreenState extends State<SignUpScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 12),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 10),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Password must be 8 characters',
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 14,
-                        ),
-                      ),
-                    ),
-                  ),
                   const SizedBox(height: 30),
                   SizedBox(
                     width: double.infinity,
                     height: 56,
                     child: ElevatedButton(
-                      onPressed: () {
-                        if (_usernameController.text.isEmpty ||
-                            _emailController.text.isEmpty ||
-                            _passwordController.text.isEmpty) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('All fields must be filled!'),
-                            ),
+                        onPressed: () {
+                          _signUp(
+                            email: _emailController.text,
+                            password: _passwordController.text,
+                            username: _usernameController.text,
                           );
-                          return;
-                        }
-
-                        if (!_isValidEmail(_emailController.text)) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Please enter a valid email address!'),
-                            ),
-                          );
-                          return;
-                        }
-
-                        if (_passwordController.text.length < 8) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text(
-                                  'Password must be at least 8 characters!'),
-                            ),
-                          );
-                          return;
-                        }
-
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const VerificationScreen(),
-                          ),
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
+                        },
+                        style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF0D6EFD),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(14),
@@ -202,7 +215,7 @@ class _SignupScreenState extends State<SignUpScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const SignInScreen(),
+                              builder: (context) => SignInScreen(),
                             ),
                           );
                         },
@@ -213,42 +226,6 @@ class _SignupScreenState extends State<SignUpScreen> {
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                  const Center(
-                    child: Text(
-                      "Or connect",
-                      style: TextStyle(color: Colors.grey),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          // Facebook login functionality
-                        },
-                        icon: Image.asset('images/pngs/facebook.png'),
-                        iconSize: 44,
-                      ),
-                      const SizedBox(width: 20),
-                      IconButton(
-                        onPressed: () {
-                          // Instagram login functionality
-                        },
-                        icon: Image.asset('images/pngs/instagram.png'),
-                        iconSize: 44,
-                      ),
-                      const SizedBox(width: 20),
-                      IconButton(
-                        onPressed: () {
-                          // Twitter login functionality
-                        },
-                        icon: Image.asset('images/pngs/twitter.png'),
-                        iconSize: 44,
                       ),
                     ],
                   ),

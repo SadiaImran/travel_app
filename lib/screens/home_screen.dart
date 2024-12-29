@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  final String username;
+
+  const HomeScreen({Key? key, required this.username}) : super(key: key);
+
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -41,9 +44,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           backgroundImage: AssetImage('images/pngs/avatar.png'),
                         ),
                         const SizedBox(width: 8),
-                        const Text(
-                          'Leonardo',
-                          style: TextStyle(
+                        Text(
+                          widget.username,
+                          style: const TextStyle(
                             fontSize: 12,
                             fontFamily: "sf-ui-display-semibold",
                           ),

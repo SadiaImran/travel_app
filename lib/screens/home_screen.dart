@@ -31,14 +31,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     color: const Color(0xFFF7F7F9),
                     borderRadius: BorderRadius.circular(20.0),
                   ),
-                  child: Row(
+                  child: const Row(
                     children: [
                       CircleAvatar(
                         radius: 20,
                         backgroundImage: AssetImage('images/pngs/avatar.png'),
                       ),
-                      const SizedBox(width: 8),
-                      const Text(
+                      SizedBox(width: 8),
+                      Text(
                         'Leonardo',
                         style: TextStyle(
                           fontSize: 12,
@@ -50,8 +50,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 Container(
                   padding: const EdgeInsets.all(8.0),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFF7F7F9),
+                  decoration: const BoxDecoration(
+                    color: Color(0xFFF7F7F9),
                     shape: BoxShape.circle,
                   ),
                   child: Image.asset(
@@ -73,7 +73,24 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             const SizedBox(height: 20.0),
+                'images/pngs/ExploretheBeautifulworld!.png',
+                height: 38.0, // Correct property
+                fit: BoxFit.contain,
+              ),
+            ),
+            const SizedBox(height: 16.0),
 
+            Container(
+              alignment: Alignment.centerLeft,
+              padding: const EdgeInsets.only(top: 8.0, left: 12.0),
+              child: Image.asset(
+                'images/pngs/Vector1.png',
+                height: 17.41,
+                width: 57.0,
+                fit: BoxFit.contain,
+              ),
+            ),
+            const SizedBox(height: 24.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -128,19 +145,17 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
               ),
             ),
-            const SizedBox(height: 24.0),
-
-
+            const SizedBox(height: 44.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Column(
+                const Column(
                   children: [
                     Icon(Icons.home, size: 24.0, color: Colors.grey),
                     Text("Home", style: TextStyle(color: Colors.grey, fontSize: 12)),
                   ],
                 ),
-                Column(
+                const Column(
                   children: [
                     Icon(Icons.calendar_today, size: 24.0, color: Colors.grey),
                     Text("Calendar", style: TextStyle(color: Colors.grey, fontSize: 12)),
@@ -149,23 +164,23 @@ class _HomeScreenState extends State<HomeScreen> {
                 Column(
                   children: [
                     Container(
-                      padding: EdgeInsets.all(8.0),
-                      decoration: BoxDecoration(
+                      padding: const EdgeInsets.all(8.0),
+                      decoration: const BoxDecoration(
                         color: Colors.blue, // Background color
                         shape: BoxShape.circle,
                       ),
-                      child: Icon(Icons.search, size: 24.0, color: Colors.white),
+                      child: const Icon(Icons.search, size: 24.0, color: Colors.white),
                     ),
-                    Text("Search", style: TextStyle(color: Colors.blue, fontSize: 12)),
+                    const Text("Search", style: TextStyle(color: Colors.blue, fontSize: 12)),
                   ],
                 ),
-                Column(
+                const Column(
                   children: [
                     Icon(Icons.bookmark, size: 24.0, color: Colors.grey),
                     Text("Bookmarks", style: TextStyle(color: Colors.grey, fontSize: 12)),
                   ],
                 ),
-                Column(
+                const Column(
                   children: [
                     Icon(Icons.person, size: 24.0, color: Colors.grey),
                     Text("Profile", style: TextStyle(color: Colors.grey, fontSize: 12)),

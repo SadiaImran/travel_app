@@ -30,6 +30,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  firebase_core: ^2.15.0   # Core Firebase SDK
+  firebase_auth: ^4.17.8    # Firebase Authentication
+  cloud_firestore: ^4.14.0  # Firestore Database # Cupertino Icons package
+  firebase_database : ^10.2.0
+
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -68,6 +73,8 @@ flutter:
      - images/pngs/twitter.png
      - images/pngs/email.png
      - images/pngs/image-arc.png
+     - images/pngs/desti1.png
+     - images/pngs/desti2.png
      - images/pngs/image-onboard-1.png
      - images/pngs/image-onboard-2.png
      - images/pngs/image-onboard-3.png
@@ -80,7 +87,10 @@ flutter:
      - images/pngs/place2.png
      - images/pngs/explore.png
      - images/pngs/Notifications.png
-
+     - images/pngs/Vector1.png
+     - images/pngs/Notifications.png
+     - images/pngs/ExploretheBeautifulworld!.png
+     - images/pngs/avatar.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

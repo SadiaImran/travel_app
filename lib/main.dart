@@ -1,7 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:travel_app/screens/home_screen.dart';
 import 'screens/splash_screen.dart';
 import 'firebase_options.dart';
 
@@ -18,6 +17,7 @@ void main() async {
     } else {
       print('Firebase is already initialized');
     }
+    // writeFeedback();  // Your function to write feedback
   } catch (e) {
     print('Error initializing Firebase: $e');
   }
@@ -38,5 +38,14 @@ class MyApp extends StatelessWidget {
   }
 }
 
+void writeFeedback() {
+  // Correct way to reference Firebase Realtime Database
+  final DatabaseReference _feedbackRef =
+  FirebaseDatabase.instance.ref().child('feedback');  // Reference to the 'feedback' path
+  _feedbackRef.push().set({
+    'feedback': "wajiha 2 Feedback",
+    'timestamp': ServerValue.timestamp,
+  });
+}
 
 

@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+class _HomeScreenState extends State<HomeScreen> {
+  @override
   Widget build(BuildContext context) {
     final List<String> imagePaths = [
-      'images/pngs/desti1.png',
-      'images/pngs/desti2.png'
+      'images/pngs/place1.png',
+      'images/pngs/place2.png'
     ];
 
     return Scaffold(
@@ -37,8 +41,8 @@ class HomeScreen extends StatelessWidget {
                       Text(
                         'Leonardo',
                         style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
+                          fontSize: 12,
+                          fontFamily: "sf-ui-display-semibold",
                         ),
                       ),
                     ],
@@ -58,12 +62,17 @@ class HomeScreen extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 32.0),
+            const SizedBox(height: 25.0),
 
-            // "Explore the Beautiful World!" image
             Container(
               margin: const EdgeInsets.only(left: 12.0, right: 114.0),
               child: Image.asset(
+                'images/pngs/explore.png',
+                height: 80.0,
+                fit: BoxFit.contain,
+              ),
+            ),
+            const SizedBox(height: 20.0),
                 'images/pngs/ExploretheBeautifulworld!.png',
                 height: 38.0, // Correct property
                 fit: BoxFit.contain,
@@ -82,16 +91,14 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 24.0),
-
-            // "Best Destination" Row
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const Text(
                   "Best Destination",
                   style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                    fontFamily: "sf-ui-display-semibold",
                   ),
                 ),
                 const SizedBox(width: 16),
@@ -103,6 +110,7 @@ class HomeScreen extends StatelessWidget {
                     "View All",
                     style: TextStyle(
                       fontSize: 14,
+                      fontFamily: "sf-ui-display-semibold",
                       color: Colors.blue,
                     ),
                   ),

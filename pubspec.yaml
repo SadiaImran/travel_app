@@ -74,8 +74,6 @@ flutter:
      - images/pngs/twitter.png
      - images/pngs/email.png
      - images/pngs/image-arc.png
-     - images/pngs/desti1.png
-     - images/pngs/desti2.png
      - images/pngs/image-onboard-1.png
      - images/pngs/image-onboard-2.png
      - images/pngs/image-onboard-3.png
@@ -88,10 +86,8 @@ flutter:
      - images/pngs/place2.png
      - images/pngs/explore.png
      - images/pngs/Notifications.png
-     - images/pngs/Vector1.png
-     - images/pngs/Notifications.png
-     - images/pngs/ExploretheBeautifulworld!.png
      - images/pngs/avatar.png
+     - images/pngs/profilephoto.png
      - images/svgs/icon-bookmark.svg
      - images/svgs/icon-location.svg
      - images/svgs/icon-peoples.svg

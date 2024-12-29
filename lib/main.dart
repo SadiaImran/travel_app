@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Travel App',
-      home: HomeScreen(username: "Sadia Imran"),
+      home: SplashScreen(),
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:travel_app/screens/search_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   final String username;
@@ -119,7 +120,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     TextButton(
                       onPressed: () {
-                        // function of ViewAll
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const SearchScreen()),
+                        );
                       },
                       child: const Text(
                         "View All",

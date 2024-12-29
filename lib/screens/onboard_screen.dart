@@ -38,71 +38,82 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Stack(
-        children: [
-          PageView(
-            controller: _pageController,
-            onPageChanged: (index) {
-              setState(() {
-                _currentPage = index;
-              });
-            },
-            children: [
-              buildOnBoardPage(
-                imagePath: 'images/pngs/image-onboard-1.png',
-                imagePathArrow: 'images/pngs/image-arc.png',
-                title: 'Life is short and the world is ',
-                highlightedWord: 'wide',
-                description:
-                'As Friends tours and travel, we customize reliable and trustworthy educational tours to destinations all over the world.',
-                buttonText: 'Get Started',
-              ),
-              buildOnBoardPage(
-                imagePath: 'images/pngs/image-onboard-2.png',
-                imagePathArrow: 'images/pngs/image-arc.png',
-                title: 'It’s a big world out there go ',
-                highlightedWord: 'explore',
-                description:
-                'To get the best of your adventure, you just need to leave and go where you like. We are waiting for you.',
-                buttonText: 'Next',
-              ),
-              buildOnBoardPage(
-                imagePath: 'images/pngs/image-onboard-3.png',
-                imagePathArrow: 'images/pngs/image-arc.png',
-                title: 'People don’t take trips, trips take ',
-                highlightedWord: 'people',
-                description:
-                'To get the best of your adventure, you just need to leave and go where you like. We are waiting for you.',
-                buttonText: 'Next',
-              ),
-            ],
-          ),
-          // Carousel Bars
-          Positioned(
-            bottom: 114,
-            left: 0,
-            right: 0,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(
-                3,
-                    (index) {
-                  return InkWell(
-                    onTap: () {
-                      _pageController.animateToPage(
-                        index,
-                        duration: const Duration(milliseconds: 400),
-                        curve: Curves.easeInOut,
-                      );
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(
+              height: MediaQuery
+                  .of(context)
+                  .size
+                  .height,
+              child: Stack(
+                children: [
+                  PageView(
+                    controller: _pageController,
+                    onPageChanged: (index) {
+                      setState(() {
+                        _currentPage = index;
+                      });
                     },
-                    child: buildCarouselBar(index == _currentPage),
-                  );
-                },
+                    children: [
+                      buildOnBoardPage(
+                        imagePath: 'images/pngs/image-onboard-1.png',
+                        imagePathArrow: 'images/pngs/image-arc.png',
+                        title: 'Life is short and the world is ',
+                        highlightedWord: 'wide',
+                        description:
+                        'As Friends tours and travel, we customize reliable and trustworthy educational tours to destinations all over the world.',
+                        buttonText: 'Get Started',
+                      ),
+                      buildOnBoardPage(
+                        imagePath: 'images/pngs/image-onboard-2.png',
+                        imagePathArrow: 'images/pngs/image-arc.png',
+                        title: 'It’s a big world out there go ',
+                        highlightedWord: 'explore',
+                        description:
+                        'To get the best of your adventure, you just need to leave and go where you like. We are waiting for you.',
+                        buttonText: 'Next',
+                      ),
+                      buildOnBoardPage(
+                        imagePath: 'images/pngs/image-onboard-3.png',
+                        imagePathArrow: 'images/pngs/image-arc.png',
+                        title: 'People don’t take trips, trips take ',
+                        highlightedWord: 'people',
+                        description:
+                        'To get the best of your adventure, you just need to leave and go where you like. We are waiting for you.',
+                        buttonText: 'Next',
+                      ),
+                    ],
+                  ),
+                  // Carousel Bars
+                  Positioned(
+                    bottom: 114,
+                    left: 0,
+                    right: 0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: List.generate(
+                        3,
+                            (index) {
+                          return InkWell(
+                            onTap: () {
+                              _pageController.animateToPage(
+                                index,
+                                duration: const Duration(milliseconds: 400),
+                                curve: Curves.easeInOut,
+                              );
+                            },
+                            child: buildCarouselBar(index == _currentPage),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            )
-
-          ),
-        ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -130,98 +141,99 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
     required String description,
     required String buttonText,
   }) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        // Image Section
-        Image.asset(
-          imagePath,
-          width: double.infinity,
-          fit: BoxFit.fill,
-        ),
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          // Image Section
+          Image.asset(
+            imagePath,
+            width: double.infinity,
+            fit: BoxFit.fill,
+          ),
 
-        const SizedBox(height: 40),
+          const SizedBox(height: 40),
 
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30),
-          child: RichText(
-            textAlign: TextAlign.center,
-            text : TextSpan(
-              style: const TextStyle(
-                fontSize: 30,
-                fontWeight: FontWeight.w900,
-                fontFamily: 'Abel'
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30),
+            child: RichText(
+              textAlign: TextAlign.center,
+              text: TextSpan(
+                style: const TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.w900,
+                    fontFamily: 'Abel'),
+                children: <TextSpan>[
+                  TextSpan(
+                    text: title,
+                    style: const TextStyle(
+                      color: AppColors.onBoardTextBlack,
+                    ),
+                  ),
+                  TextSpan(
+                    text: highlightedWord,
+                    style: const TextStyle(
+                      color: AppColors.onBoardTextOrange,
+                    ),
+                  ),
+                ],
               ),
-              children: <TextSpan> [
-                TextSpan(
-                  text: title,
-                  style: const TextStyle(
-                    color: AppColors.onBoardTextBlack,
-                  ),
-                ),
-                TextSpan(
-                  text: highlightedWord,
-                  style: const TextStyle(
-                    color: AppColors.onBoardTextOrange,
-                  ),
-                ),
-              ],
             ),
           ),
-        ),
 
-        Image.asset(
-          imagePathArrow,
-          alignment: Alignment.centerRight,
-          fit: BoxFit.contain,
-        ),
-        const SizedBox(height: 10),
-
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 40),
-          child: Text(
-            description,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontSize: 16,
-              color: AppColors.onBoardTextGray,
-              fontFamily: 'GillSansMT',
-            ),
+          Image.asset(
+            imagePathArrow,
+            alignment: Alignment.centerRight,
+            fit: BoxFit.contain,
           ),
-        ),
+          const SizedBox(height: 10),
 
-        const SizedBox(height: 20),
-
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 25),
-          child: ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => SignUpScreen()),
-              );
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.onBoardButtonBlue,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
-              padding:
-              const EdgeInsets.symmetric(horizontal: 120, vertical: 18),
-            ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 40),
             child: Text(
-              buttonText,
+              description,
+              textAlign: TextAlign.center,
               style: const TextStyle(
-                fontFamily: 'SFUIDisplay',
                 fontSize: 16,
-                color: Colors.white,
-                fontWeight: FontWeight.w800,
+                color: AppColors.onBoardTextGray,
+                fontFamily: 'GillSansMT',
               ),
             ),
           ),
-        ),
-      ],
+
+          const SizedBox(height: 20),
+
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 25),
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SignUpScreen()),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.onBoardButtonBlue,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                padding:
+                const EdgeInsets.symmetric(horizontal: 120, vertical: 18),
+              ),
+              child: Text(
+                buttonText,
+                style: const TextStyle(
+                  fontFamily: 'SFUIDisplay',
+                  fontSize: 16,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
-}
+  }

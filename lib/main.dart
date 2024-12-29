@@ -17,7 +17,7 @@ void main() async {
     } else {
       print('Firebase is already initialized');
     }
-    writeFeedback();  // Your function to write feedback
+    // writeFeedback();  // Your function to write feedback
   } catch (e) {
     print('Error initializing Firebase: $e');
   }

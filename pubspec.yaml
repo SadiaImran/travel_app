@@ -37,6 +37,7 @@ dependencies:
 
 
 
+
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.6
@@ -73,8 +74,6 @@ flutter:
      - images/pngs/twitter.png
      - images/pngs/email.png
      - images/pngs/image-arc.png
-     - images/pngs/desti1.png
-     - images/pngs/desti2.png
      - images/pngs/image-onboard-1.png
      - images/pngs/image-onboard-2.png
      - images/pngs/image-onboard-3.png
@@ -82,15 +81,33 @@ flutter:
      - images/svgs/image-onboard-1.svg
      - images/svgs/image-onboard-2.svg
      - images/svgs/image-onboard-3.svg
-     - images/pngs/Vector1.png
+     - images/pngs/avatar.png
+     - images/pngs/place1.png
+     - images/pngs/place2.png
+     - images/pngs/explore.png
      - images/pngs/Notifications.png
-     - images/pngs/ExploretheBeautifulworld!.png
      - images/pngs/avatar.png
      - images/jpgs/pic1.jpg
      - images/jpgs/pic2.jpg
      - images/jpgs/pic3.jpg
      - images/jpgs/pic4.jpg
-
+     - images/pngs/profilephoto.png
+     - images/svgs/icon-bookmark.svg
+     - images/svgs/icon-location.svg
+     - images/svgs/icon-peoples.svg
+     - images/svgs/icon-star.svg
+     - images/pngs/icon-bookmark.jpg
+     - images/pngs/icon-bookmark.png
+     - images/pngs/icon-location.jpg
+     - images/pngs/icon-location.png
+     - images/pngs/icon-peoples.jpg
+     - images/pngs/icon-peoples.png
+     - images/pngs/icon-star.jpg
+     - images/pngs/icon-star.png
+     - images/pngs/image-place-1.png
+     - images/pngs/image-place-2.png
+     - images/svgs/image-place-1.svg
+     - images/svgs/image-place-2.svg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

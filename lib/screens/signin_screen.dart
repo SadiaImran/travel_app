@@ -1,11 +1,22 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:travel_app/colors.dart';
 import 'package:travel_app/screens/forget_password_screen.dart';
 import 'package:travel_app/screens/home_screen.dart';
 import 'package:travel_app/screens/signup_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class SignInScreen extends StatelessWidget {
+class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
+
+  @override
+  _SignInScreenState createState() => _SignInScreenState();
+}
+
+class _SignInScreenState extends State<SignInScreen> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  String username = "Sadia"; // You can now change this inside the state class.
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +34,6 @@ class SignInScreen extends StatelessWidget {
               child: IconButton(
                 icon: Image.asset('images/pngs/back-arrow.png'),
                 onPressed: () {
-                  // back functionality
                   Navigator.pop(context);
                 },
               ),
@@ -46,15 +56,16 @@ class SignInScreen extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 16,
                   color: AppColors.greyText,
-                    fontFamily: "sf-ui-display-regular"
+                  fontFamily: "sf-ui-display-regular",
                 ),
               ),
             ),
             const SizedBox(height: 40),
             TextField(
+              controller: _emailController,
               decoration: InputDecoration(
                 hintText: "www.uihut@gmail.com",
-                hintStyle: TextStyle(color: AppColors.darkText),
+                hintStyle: const TextStyle(color: AppColors.darkText),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                   borderSide: BorderSide.none,
@@ -65,14 +76,16 @@ class SignInScreen extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             TextField(
+              controller: _passwordController,
               obscureText: true,
               decoration: InputDecoration(
                 hintText: "*********",
-                  hintStyle: TextStyle(color: AppColors.greyText),
+                hintStyle: const TextStyle(color: AppColors.greyText),
                 suffixIcon: IconButton(
                   icon: const Icon(Icons.visibility_off),
                   color: AppColors.greyText,
                   onPressed: () {
+                    // Handle password visibility toggle
                   },
                 ),
                 border: OutlineInputBorder(
@@ -103,13 +116,68 @@ class SignInScreen extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const HomeScreen(),
-                    ),
-                  );
+                onPressed: () async {
+                  try {
+                    final email = _emailController.text;
+                    final password = _passwordController.text;
+
+                    if (email.isEmpty || password.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Please fill in both fields'),
+                        ),
+                      );
+                      return;
+                    }
+
+                    UserCredential userCredential = await FirebaseAuth.instance
+                        .signInWithEmailAndPassword(
+                      email: email,
+                      password: password,
+                    );
+
+                    if (userCredential.user != null) {
+                      String uid = userCredential.user!.uid ;
+
+                      DatabaseReference ref = FirebaseDatabase.instance.ref("users/$uid");
+                      DatabaseEvent event = await ref.once();
+
+                      if(event.snapshot.value != null){
+                        final userData = event.snapshot.value as Map ;
+                        String username = userData["username"];
+                        setState(() {
+                          this.username = username; // Updates the username in the state
+                        });
+                        print("Welcome back, $username!");
+                      }
+                      else{
+                        print("User data not found in database");
+                      }
+                      // Navigate to HomeScreen
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => HomeScreen(username: username),
+                        ),
+                      );
+                    }
+                  } on FirebaseAuthException catch (e) {
+                    String message;
+                    if (e.code == 'user-not-found') {
+                      message = 'No user found for this email.';
+                    } else if (e.code == 'wrong-password') {
+                      message = 'Incorrect password.';
+                    } else {
+                      message = e.message ?? 'An error occurred.';
+                    }
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(message)),
+                    );
+                  } catch (e) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('An unexpected error occurred.')),
+                    );
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.splashPrimaryBlue,
@@ -131,12 +199,15 @@ class SignInScreen extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text("Don’t have an account? ",style: TextStyle(color: AppColors.greyText),),
+                const Text(
+                  "Don’t have an account? ",
+                  style: TextStyle(color: AppColors.greyText),
+                ),
                 TextButton(
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => SignUpScreen()),
+                      MaterialPageRoute(builder: (context) => const SignUpScreen()),
                     );
                   },
                   child: const Text(
@@ -167,7 +238,7 @@ class SignInScreen extends StatelessWidget {
                 const SizedBox(width: 20),
                 IconButton(
                   onPressed: () {
-                    //Instagram login functionality
+                    // Instagram login functionality
                   },
                   icon: Image.asset('images/pngs/instagram.png'),
                   iconSize: 44,
@@ -175,14 +246,13 @@ class SignInScreen extends StatelessWidget {
                 const SizedBox(width: 20),
                 IconButton(
                   onPressed: () {
-                    //Twitter login functionality
+                    // Twitter login functionality
                   },
                   icon: Image.asset('images/pngs/twitter.png'),
                   iconSize: 44,
                 ),
               ],
             ),
-
           ],
         ),
       ),

@@ -87,6 +87,10 @@ flutter:
      - images/pngs/explore.png
      - images/pngs/Notifications.png
      - images/pngs/avatar.png
+     - images/jpgs/pic1.jpg
+     - images/jpgs/pic2.jpg
+     - images/jpgs/pic3.jpg
+     - images/jpgs/pic4.jpg
      - images/pngs/profilephoto.png
      - images/svgs/icon-bookmark.svg
      - images/svgs/icon-location.svg

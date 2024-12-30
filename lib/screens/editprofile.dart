@@ -3,8 +3,8 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 class EditProfileScreen extends StatefulWidget {
-  const EditProfileScreen({Key? key}) : super(key: key);
-
+  const EditProfileScreen({Key? key , required this.username}) : super(key: key);
+  final String username;
   @override
   State<EditProfileScreen> createState() => _EditProfileScreenState();
 }

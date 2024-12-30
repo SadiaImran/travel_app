@@ -3,6 +3,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:travel_app/screens/search_screen.dart';
+import 'details_screen.dart';
 import 'editprofile.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -249,7 +250,112 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                     const SizedBox(height: 18.0),
+                // Horizontal Image List with bookmark icon
+                SizedBox(
+                  height: 280,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: placesData.length,
+                    itemBuilder: (context, index) {
+                      var place = placesData[index];
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DetailsScreen(place: place),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          width: 200,
+                          margin: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(16.0),
+                                child: Stack(
+                                  children: [
+                                    Image.network(
+                                      place["imageUrl"] ?? "default_image_url",
+                                      height: 220,
+                                      width: 200,
+                                      fit: BoxFit.cover,
+                                    ),
+                                    Positioned(
+                                      top: 10.0,
+                                      right: 10.0,
+                                      child: Image.asset(
+                                        "images/pngs/icon-bookmark.png",
+                                        height: 28.0,
+                                        width: 28.0,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(height: 8.0),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      place["name"] ?? "No Title",
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        fontFamily: "sf-ui-display-semibold",
+                                        color: Colors.blue,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                  Row(
+                                    children: [
+                                      Image.asset("images/pngs/icon-star.png"),
+                                      const SizedBox(width: 8.0),
+                                      Text(
+                                        place["rating"]?.toString() ?? "0.0",
+                                        style: const TextStyle(
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 8.0),
+                              Row(
+                                children: [
+                                  Image.asset("images/pngs/icon-location.png"),
+                                  const SizedBox(width: 4.0),
+                                  Expanded(
+                                    child: Text(
+                                      place["location"] ?? "No Location",
+                                      style: const TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.grey,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
 
+                const SizedBox(height: 44.0),
+
+                // Bottom Navigation
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    const Column(
                     // Horizontal Image List with bookmark icon
                     SizedBox(
                       height: 280,

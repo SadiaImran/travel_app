@@ -146,7 +146,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         final userData = event.snapshot.value as Map ;
                         String username = userData["username"];
                         setState(() {
-                          this.username = username; // Updates the username in the state
+                          this.username = username;
                         });
                         print("Welcome back, $username!");
                       }

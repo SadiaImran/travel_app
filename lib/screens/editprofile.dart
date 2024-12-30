@@ -109,7 +109,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               const SizedBox(height: 20),
               const CircleAvatar(
                 radius: 50,
-                backgroundImage: AssetImage('images/profilephoto.png'),
+                backgroundImage: AssetImage('images/pngs/profilephoto.png'),
               ),
               const SizedBox(height: 10),
               TextButton(

@@ -1,76 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/material.dart';
 
-// Place Model
-class Place {
-  final String name;
-  final String imageUrl;
-  final String price;
-
-  Place({
-    required this.name,
-    required this.imageUrl,
-    required this.price,
-  });
-
-  // Convert Place object to a Map
-  Map<String, dynamic> toMap() {
-    return {
-      'name': name,
-      'imageUrl': imageUrl,
-      'price': price,
-    };
-  }
-
-  // Create Place object from a Map
-  factory Place.fromMap(Map<String, dynamic> map) {
-    return Place(
-      name: map['name'] ?? '',
-      imageUrl: map['imageUrl'] ?? '',
-      price: map['price'] ?? '',
-    );
-  }
-}
-
-// Places Service for Firebase Operations
-class PlacesService {
-  final DatabaseReference _placesRef = FirebaseDatabase.instance.ref().child('places');
-
-  // Write all places to Firebase
-  Future<void> writePlacesToFirebase(List<Place> places) async {
-    try {
-      for (var place in places) {
-        await _placesRef.push().set(place.toMap());
-      }
-      print('Places written to Firebase successfully');
-    } catch (e) {
-      print('Error writing places to Firebase: $e');
-      rethrow;
-    }
-  }
-
-  // Read places from Firebase
-  Future<List<Place>> getPlacesFromFirebase() async {
-    try {
-      final snapshot = await _placesRef.get();
-      final List<Place> places = [];
-
-      if (snapshot.value != null) {
-        Map<dynamic, dynamic> placesMap = snapshot.value as Map<dynamic, dynamic>;
-        placesMap.forEach((key, value) {
-          places.add(Place.fromMap(Map<String, dynamic>.from(value)));
-        });
-      }
-
-      return places;
-    } catch (e) {
-      print('Error reading places from Firebase: $e');
-      rethrow;
-    }
-  }
-}
-
-// Main SearchScreen Widget
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
 
@@ -79,36 +9,56 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  final PlacesService _placesService = PlacesService();
-  List<Place> places = [];
-  bool isLoading = true;
+  var placesData = [];
+  var filteredPlaces = [];
+  final TextEditingController searchController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _loadPlaces();
+    loadPlaces();
+    searchController.addListener(() {
+      filterPlaces();
+    });
   }
 
-  Future<void> _loadPlaces() async {
-    try {
-      // Uncomment this line only once to write sample data to Firebase
-     // await _placesService.writePlacesToFirebase(placesList);
+  @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
+  }
 
-      final loadedPlaces = await _placesService.getPlacesFromFirebase();
+  void loadPlaces() async {
+    DatabaseReference ref = FirebaseDatabase.instance.ref("places");
+    DatabaseEvent event = await ref.once();
+
+    if (event.snapshot.value != null) {
       setState(() {
-        places = loadedPlaces;
-        isLoading = false;
+        placesData = (event.snapshot.value as Map).values.toList();
+        filteredPlaces = List.from(placesData);
       });
-    } catch (e) {
-      print('Error loading places: $e');
-      setState(() {
-        isLoading = false;
-      });
+    } else {
+      print('No data available!');
     }
+  }
+
+  void filterPlaces() {
+    String query = searchController.text.toLowerCase();
+    setState(() {
+      filteredPlaces = placesData.where((place) {
+        String name = place["name"]?.toLowerCase() ?? "";
+        return name.contains(query);
+      }).toList();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    int crossAxisCount = screenWidth > 600 ? 3 : 2;
+    double crossAxisSpacing = screenWidth > 600 ? 20.0 : 10.0;
+    double mainAxisSpacing = screenWidth > 600 ? 20.0 : 12.0;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -124,7 +74,9 @@ class _SearchScreenState extends State<SearchScreen> {
         ),
         actions: [
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              searchController.clear();
+            },
             child: const Text(
               'Cancel',
               style: TextStyle(color: Colors.blue),
@@ -132,133 +84,130 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
         ],
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: TextField(
-              decoration: InputDecoration(
-                hintText: 'Search Places',
-                prefixIcon: const Icon(Icons.search),
-                suffixIcon: const Icon(Icons.mic),
-                filled: true,
-                fillColor: Colors.grey[200],
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: BorderSide.none,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: TextField(
+                  controller: searchController,
+                  decoration: InputDecoration(
+                    hintText: 'Search Places',
+                    prefixIcon: const Icon(Icons.search),
+                    suffixIcon: const Icon(Icons.mic),
+                    filled: true,
+                    fillColor: Colors.grey[200],
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
-          const Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Text(
-              'Search Places',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
+              const Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Text(
+                  'Search Results',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
-            ),
-          ),
-          Expanded(
-            child: isLoading
-                ? const Center(child: CircularProgressIndicator())
-                : GridView.builder(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 1.1,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 40),
+                child: GridView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: crossAxisCount,
+                    childAspectRatio: 0.8,
+                    crossAxisSpacing: crossAxisSpacing,
+                    mainAxisSpacing: mainAxisSpacing,
+                  ),
+                  itemCount: filteredPlaces.length,
+                  itemBuilder: (context, index) {
+                    var place = filteredPlaces[index];
+                    return Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16.0),
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.2),
+                            spreadRadius: 2,
+                            blurRadius: 5,
+                            offset: const Offset(0, 3),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(16.0),
+                            child: Image.network(
+                              place["imageUrl"] ?? "default_image_url",
+                              height: 150,
+                              width: double.infinity,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  place["name"] ?? "No Title",
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(height: 4.0),
+                                Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.location_on,
+                                      size: 16,
+                                      color: Colors.grey,
+                                    ),
+                                    const SizedBox(width: 4.0),
+                                    Text(
+                                      place["location"] ?? "No Location",
+                                      style: const TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.grey,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 4.0),
+                                Text(
+                                  place["price"] ?? "No Price",
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
               ),
-              itemCount: places.length,
-              itemBuilder: (context, index) {
-                return PlaceCard(place: places[index]);
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// PlaceCard Widget
-class PlaceCard extends StatelessWidget {
-  final Place place;
-
-  const PlaceCard({super.key, required this.place});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        image: DecorationImage(
-          image: AssetImage(place.imageUrl),
-          fit: BoxFit.cover,
-        ),
-      ),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Colors.transparent,
-              Colors.black.withOpacity(0.7),
             ],
           ),
         ),
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              place.name,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            Text(
-              place.price,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 14,
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }
 }
-
-// Sample Data (for initial Firebase write)
-final List<Place> placesList = [
-  Place(
-    name: 'Niladin Reservoir',
-    imageUrl: 'images/jpgs/pic1.jpg',
-    price: '\$585/Person',
-  ),
-  Place(
-    name: 'Casa Las Tortugas',
-    imageUrl: 'images/jpgs/pic2.jpg',
-    price: '\$486/Person',
-  ),
-  Place(
-    name: 'Beach Paradise',
-    imageUrl: 'images/jpgs/pic3.jpg',
-    price: '\$386/Person',
-  ),
-  Place(
-    name: 'Mountain Retreat',
-    imageUrl: 'images/jpgs/pic4.jpg',
-    price: '\$286/Person',
-  ),
-];

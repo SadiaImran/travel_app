@@ -1,8 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 class EditProfileScreen extends StatefulWidget {
-  const EditProfileScreen({Key? key}) : super(key: key);
-
+  const EditProfileScreen({Key? key , required this.username}) : super(key: key);
+  final String username;
   @override
   State<EditProfileScreen> createState() => _EditProfileScreenState();
 }
@@ -12,6 +14,62 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   final TextEditingController lastNameController = TextEditingController();
   final TextEditingController locationController = TextEditingController();
   final TextEditingController mobileNumberController = TextEditingController();
+
+  final DatabaseReference databaseRef = FirebaseDatabase.instance.ref();
+  final FirebaseAuth auth = FirebaseAuth.instance;
+
+  String? username;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+  // Fetch user data from Firebase Realtime Database
+  void _loadUserData() async {
+    final User? user = auth.currentUser;
+
+    if (user != null) {
+      String uid = user.uid;
+      DatabaseReference userRef = databaseRef.child('users/$uid');
+
+      DatabaseEvent event = await userRef.once();
+      if (event.snapshot.value != null) {
+        final userData = event.snapshot.value as Map<dynamic, dynamic>;
+
+        setState(() {
+          username = userData['username'];
+          firstNameController.text = userData['firstName'] ?? '';
+          lastNameController.text = userData['lastName'] ?? '';
+          locationController.text = userData['location'] ?? '';
+          mobileNumberController.text = userData['mobileNumber'] ?? '';
+        });
+      }
+    }
+  }
+
+  // Save updated user profile data to Firebase for the logged-in user
+  Future<void> _saveProfileData() async {
+    final User? user = auth.currentUser;
+
+    if (user != null) {
+      String uid = user.uid;
+      DatabaseReference userRef = databaseRef.child('users/$uid');
+
+      await userRef.update({
+        'username': username,
+        'firstName': firstNameController.text,
+        'lastName': lastNameController.text,
+        'location': locationController.text,
+        'mobileNumber': mobileNumberController.text,
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Profile updated successfully')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +90,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         ),
         actions: [
           TextButton(
-            onPressed: () {
-              // Save Profile Logic
-            },
+            onPressed: _saveProfileData,
             child: const Text(
               'Done',
               style: TextStyle(
@@ -51,14 +107,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           child: Column(
             children: [
               const SizedBox(height: 20),
-              CircleAvatar(
+              const CircleAvatar(
                 radius: 50,
-                backgroundImage: AssetImage('images/profilephoto.png'),
+                backgroundImage: AssetImage('images/pngs/profilephoto.png'),
               ),
               const SizedBox(height: 10),
               TextButton(
                 onPressed: () {
-                  // Change Profile Picture Logic
                 },
                 child: const Text(
                   'Change Profile Picture',

@@ -24,28 +24,10 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    loadPlaces();
+    loadPlaces(_focusedDay);
   }
 
-  void loadPlaces() async {
-    DatabaseReference ref = FirebaseDatabase.instance.ref("places");
-    DatabaseEvent event = await ref.once();
-
-    if (event.snapshot.value != null) {
-      setState(() {
-        placesData = (event.snapshot.value as Map)
-            .values
-            .map((e) => Map<String, dynamic>.from(e))
-            .toList();
-      });
-// addScheduledPlaces();
-    } else {
-      print('No data available!');
-    }
-  }
-
-
-  void addScheduledPlaces() async {
+  void loadPlaces(DateTime selectedDate) async {
     // Get the current user
     User? currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser == null) {
@@ -53,42 +35,69 @@ class _HomeScreenState extends State<HomeScreen> {
       return;
     }
 
-    String userId = currentUser.uid; // Get the user ID of the signed-in user
+    String userId = currentUser.uid;
 
-    // Firebase Realtime Database reference
+    // References for places and user's scheduledPlaces
     DatabaseReference placesRef = FirebaseDatabase.instance.ref("places");
-    DatabaseReference usersRef = FirebaseDatabase.instance.ref("users");
+    DatabaseReference scheduledPlacesRef = FirebaseDatabase.instance.ref("users/$userId/scheduledPlaces");
 
-    // Fetch available places from the database
-    DataSnapshot placesSnapshot = await placesRef.get();
+    // Fetch the scheduled places for the current user
+    DatabaseEvent scheduledPlacesEvent = await scheduledPlacesRef.once();
 
-    if (placesSnapshot.exists) {
-      Map<dynamic, dynamic> places = placesSnapshot.value as Map<dynamic, dynamic>;
+    if (scheduledPlacesEvent.snapshot.value != null) {
+      Map<dynamic, dynamic> scheduledPlaces = scheduledPlacesEvent.snapshot.value as Map<dynamic, dynamic>;
 
-      // Get the current date (you can also use a custom date here)
-      String currentDate = DateTime.now().toIso8601String().split("T")[0]; // YYYY-MM-DD format
+      // Fetch all places from the database
+      DatabaseEvent placesEvent = await placesRef.once();
 
-      // Pick a few places (for demonstration, we'll pick the first 2 places)
-      Map<String, dynamic> scheduledPlaces = {};
-      int count = 0;
+      if (placesEvent.snapshot.value != null) {
+        Map<dynamic, dynamic> allPlaces = placesEvent.snapshot.value as Map<dynamic, dynamic>;
 
-      places.forEach((placeId, placeData) {
-        if (count < 2) { // Add the first 2 places to the schedule
-          scheduledPlaces[placeId] = {
-            "date": currentDate,  // Use the current date or a selected date
-          };
-          count++;
+        // Filter places to only include those in scheduledPlaces for the selected date
+        List<Map<String, dynamic>> filteredPlaces = [];
+
+        scheduledPlaces.forEach((placeId, placeDetails) {
+          if (allPlaces.containsKey(placeId)) {
+            Map<String, dynamic> place = Map<String, dynamic>.from(allPlaces[placeId]);
+
+            // Check if the scheduled date matches the selected date (exclude time from comparison)
+            DateTime scheduledDate = DateTime.parse(placeDetails['date']);
+            DateTime formattedScheduledDate = DateTime(scheduledDate.year, scheduledDate.month, scheduledDate.day);
+            DateTime formattedSelectedDate = DateTime(selectedDate.year, selectedDate.month, selectedDate.day);
+
+            if (formattedScheduledDate.isAtSameMomentAs(formattedSelectedDate)) {
+              // Include the date from scheduledPlaces
+              place['scheduledDate'] = placeDetails['date'];
+              filteredPlaces.add(place);
+            }
+          }
+        });
+
+        if (filteredPlaces.isNotEmpty) {
+          setState(() {
+            placesData = filteredPlaces;
+          });
+        } else {
+          print("No scheduled places found for the selected date.");
+          setState(() {
+            placesData = []; // Clear the list if no scheduled places
+          });
         }
-      });
-
-      // Add scheduled places with the date to the current user
-      await usersRef.child(userId).child("scheduledPlaces").update(scheduledPlaces);
-
-      print("Scheduled places with dates added for user $userId.");
+      } else {
+        print("No places available in the database.");
+        setState(() {
+          placesData = []; // Clear the list if no places are available
+        });
+      }
     } else {
-      print("No places available in the database.");
+      print("No scheduled places for the user.");
+      setState(() {
+        placesData = []; // Clear the list if no scheduled places
+      });
     }
   }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -187,6 +196,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             _selectedDay = selectedDay;
                             _focusedDay = focusedDay;
                           });
+                          loadPlaces(selectedDay);
                         },
                         calendarFormat: CalendarFormat.month,
                         daysOfWeekHeight: 20,
@@ -301,7 +311,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               size: 20, color: Colors.blue),
                                           const SizedBox(width: 8),
                                           Text(
-                                            place["date"] ?? "No Date",
+                                            place["scheduledDate"] ?? "No Date",
                                             style: const TextStyle(
                                               fontSize: 12,
                                               fontFamily: "sf-ui-display-semibold",

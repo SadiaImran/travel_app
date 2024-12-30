@@ -1,6 +1,8 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
+import 'editprofile.dart';
+
 class HomeScreen extends StatefulWidget {
   final String username;
 
@@ -85,10 +87,20 @@ class _HomeScreenState extends State<HomeScreen> {
                         color: Color(0xFFF7F7F9),
                         shape: BoxShape.circle,
                       ),
-                      child: Image.asset(
-                        'images/pngs/Notifications.png',
-                        height: 24,
-                        width: 24,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => EditProfileScreen(username: widget.username),
+                            ),
+                          );
+                        },
+                        child: Image.asset(
+                          'images/pngs/Notifications.png',
+                          height: 24,
+                          width: 24,
+                        ),
                       ),
                     ),
                   ],

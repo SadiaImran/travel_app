@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:travel_app/screens/home_screen.dart';
 import 'package:travel_app/screens/search_screen.dart';
 import 'screens/splash_screen.dart';
 import 'firebase_options.dart';
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Travel App',
-      home: SearchScreen(),
+      home: HomeScreen(),
     );
   }
 }

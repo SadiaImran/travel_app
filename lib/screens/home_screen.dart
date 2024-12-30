@@ -250,112 +250,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                     const SizedBox(height: 18.0),
-                // Horizontal Image List with bookmark icon
-                SizedBox(
-                  height: 280,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: placesData.length,
-                    itemBuilder: (context, index) {
-                      var place = placesData[index];
-                      return GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => DetailsScreen(place: place),
-                            ),
-                          );
-                        },
-                        child: Container(
-                          width: 200,
-                          margin: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(16.0),
-                                child: Stack(
-                                  children: [
-                                    Image.network(
-                                      place["imageUrl"] ?? "default_image_url",
-                                      height: 220,
-                                      width: 200,
-                                      fit: BoxFit.cover,
-                                    ),
-                                    Positioned(
-                                      top: 10.0,
-                                      right: 10.0,
-                                      child: Image.asset(
-                                        "images/pngs/icon-bookmark.png",
-                                        height: 28.0,
-                                        width: 28.0,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(height: 8.0),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      place["name"] ?? "No Title",
-                                      style: const TextStyle(
-                                        fontSize: 14,
-                                        fontFamily: "sf-ui-display-semibold",
-                                        color: Colors.blue,
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
-                                  Row(
-                                    children: [
-                                      Image.asset("images/pngs/icon-star.png"),
-                                      const SizedBox(width: 8.0),
-                                      Text(
-                                        place["rating"]?.toString() ?? "0.0",
-                                        style: const TextStyle(
-                                          fontSize: 12,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 8.0),
-                              Row(
-                                children: [
-                                  Image.asset("images/pngs/icon-location.png"),
-                                  const SizedBox(width: 4.0),
-                                  Expanded(
-                                    child: Text(
-                                      place["location"] ?? "No Location",
-                                      style: const TextStyle(
-                                        fontSize: 12,
-                                        color: Colors.grey,
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
 
-                const SizedBox(height: 44.0),
-
-                // Bottom Navigation
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    const Column(
                     // Horizontal Image List with bookmark icon
                     SizedBox(
                       height: 280,
@@ -366,108 +261,58 @@ class _HomeScreenState extends State<HomeScreen> {
                         itemCount: placesData.length,
                         itemBuilder: (context, index) {
                           var place = placesData[index];
-                          return Container(
-                            width: 200,
-                            margin: _isCalenderView ? const EdgeInsets.symmetric(vertical: 12) : const EdgeInsets.symmetric(horizontal: 8.0) ,  // Spacing between items
-                            child: _isCalenderView
-                                ? Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(16.0),
-                                  child: Stack(
-                                    children: [
-                                      Image.network(
-                                        place["imageUrl"] ??
-                                            "https://example.com/default_image_url.jpg",
-                                        height: 120,
-                                        width: 150,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ],
-                                  ),
+                          return GestureDetector(
+                            onTap: (){
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => DetailsScreen(place: place),
                                 ),
-                                const SizedBox(width: 8.0),
-                                Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        const Icon(Icons.calendar_today,
-                                            size: 20, color: Colors.blue),
-                                        const SizedBox(width: 8),
-                                        Text(
-                                          place["date"] ?? "No Date",
-                                          style: const TextStyle(
-                                            fontSize: 12,
-                                            fontFamily: "sf-ui-display-semibold",
-                                            color: Colors.blue,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(height: 8),
-                                    Text(
-                                      place["name"] ?? "No Name",
-                                      style: const TextStyle(
-                                        fontSize: 14,
-                                        fontFamily: "sf-ui-display-semibold",
-                                        color: Colors.blue,
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    const SizedBox(height: 8),
-                                    Row(
-                                      children: [
-                                        const Icon(Icons.location_on,
-                                            size: 20, color: Colors.blue),
-                                        const SizedBox(width: 8),
-                                        Text(
-                                          place["location"] ?? "No Location",
-                                          style: const TextStyle(
-                                            fontSize: 12,
-                                            fontFamily: "sf-ui-display-semibold",
-                                            color: Colors.blue,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                )
+                              );
 
-                              ],
-                            )
-                                : Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(16.0),
-                                  child: Stack(
-                                    children: [
-                                      Image.network(
-                                        place["imageUrl"] ?? "default_image_url",
-                                        height: 220,
-                                        width: 200,
-                                        fit: BoxFit.cover,
-                                      ),
-                                      Positioned(
-                                        top: 10.0,
-                                        right: 10.0,
-                                        child: Image.asset(
-                                          "images/pngs/icon-bookmark.png",
-                                          height: 28.0,
-                                          width: 28.0,
+                            },
+                            child: Container(
+                              width: 200,
+                              margin: _isCalenderView ? const EdgeInsets.symmetric(vertical: 12) : const EdgeInsets.symmetric(horizontal: 8.0) ,  // Spacing between items
+                              child: _isCalenderView
+                                  ? Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(16.0),
+                                    child: Stack(
+                                      children: [
+                                        Image.network(
+                                          place["imageUrl"] ??
+                                              "https://example.com/default_image_url.jpg",
+                                          height: 120,
+                                          width: 150,
+                                          fit: BoxFit.cover,
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                const SizedBox(height: 8.0),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Expanded(
-                                      child: Text(
-                                        place["name"] ?? "No Title",
+                                  const SizedBox(width: 8.0),
+                                  Column(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          const Icon(Icons.calendar_today,
+                                              size: 20, color: Colors.blue),
+                                          const SizedBox(width: 8),
+                                          Text(
+                                            place["date"] ?? "No Date",
+                                            style: const TextStyle(
+                                              fontSize: 12,
+                                              fontFamily: "sf-ui-display-semibold",
+                                              color: Colors.blue,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 8),
+                                      Text(
+                                        place["name"] ?? "No Name",
                                         style: const TextStyle(
                                           fontSize: 14,
                                           fontFamily: "sf-ui-display-semibold",
@@ -475,40 +320,101 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ),
                                         overflow: TextOverflow.ellipsis,
                                       ),
-                                    ),
-                                    Row(
+                                      const SizedBox(height: 8),
+                                      Row(
+                                        children: [
+                                          const Icon(Icons.location_on,
+                                              size: 20, color: Colors.blue),
+                                          const SizedBox(width: 8),
+                                          Text(
+                                            place["location"] ?? "No Location",
+                                            style: const TextStyle(
+                                              fontSize: 12,
+                                              fontFamily: "sf-ui-display-semibold",
+                                              color: Colors.blue,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  )
+
+                                ],
+                              )
+                                  : Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(16.0),
+                                    child: Stack(
                                       children: [
-                                        Image.asset("images/pngs/icon-star.png"),
-                                        const SizedBox(width: 8.0),
-                                        Text(
-                                          place["rating"]?.toString() ?? "0.0",
-                                          style: const TextStyle(
-                                            fontSize: 12,
+                                        Image.network(
+                                          place["imageUrl"] ?? "default_image_url",
+                                          height: 220,
+                                          width: 200,
+                                          fit: BoxFit.cover,
+                                        ),
+                                        Positioned(
+                                          top: 10.0,
+                                          right: 10.0,
+                                          child: Image.asset(
+                                            "images/pngs/icon-bookmark.png",
+                                            height: 28.0,
+                                            width: 28.0,
                                           ),
                                         ),
                                       ],
                                     ),
-                                  ],
-                                ),
-                                const SizedBox(height: 8.0),
-                                Row(
-                                  children: [
-                                    Image.asset("images/pngs/icon-location.png"),
-                                    const SizedBox(width: 4.0),
-                                    Expanded(
-                                      child: Text(
-                                        place["location"] ?? "No Location",
-                                        style: const TextStyle(
-                                          fontSize: 12,
-                                          color: Colors.grey,
+                                  ),
+                                  const SizedBox(height: 8.0),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          place["name"] ?? "No Title",
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                            fontFamily: "sf-ui-display-semibold",
+                                            color: Colors.blue,
+                                          ),
+                                          overflow: TextOverflow.ellipsis,
                                         ),
-                                        overflow: TextOverflow.ellipsis,
                                       ),
-                                    ),
-                                    Image.asset("images/pngs/icon-peoples.png")
-                                  ],
-                                ),
-                              ],
+                                      Row(
+                                        children: [
+                                          Image.asset("images/pngs/icon-star.png"),
+                                          const SizedBox(width: 8.0),
+                                          Text(
+                                            place["rating"]?.toString() ?? "0.0",
+                                            style: const TextStyle(
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 8.0),
+                                  Row(
+                                    children: [
+                                      Image.asset("images/pngs/icon-location.png"),
+                                      const SizedBox(width: 4.0),
+                                      Expanded(
+                                        child: Text(
+                                          place["location"] ?? "No Location",
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                            color: Colors.grey,
+                                          ),
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                      Image.asset("images/pngs/icon-peoples.png")
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           );
                         },
@@ -600,3 +506,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+
+
+

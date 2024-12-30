@@ -108,6 +108,14 @@ flutter:
      - images/pngs/image-place-2.png
      - images/svgs/image-place-1.svg
      - images/svgs/image-place-2.svg
+     - images/svgs/image-place-6.svg
+     - images/svgs/image-place-5.svg
+     - images/svgs/image-place-4.svg
+     - images/svgs/image-place-3.svg
+     - images/pngs/image-place-3.png
+     - images/pngs/image-place-4.png
+     - images/pngs/image-place-5.png
+     - images/pngs/image-place-6.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

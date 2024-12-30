@@ -1,5 +1,6 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:travel_app/screens/search_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   final String username;
@@ -11,23 +12,24 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  var placesData = [];
+  List<Map<String, dynamic>> placesData = [];
 
-  // Load data only once in initState
   @override
   void initState() {
     super.initState();
     loadPlaces();
   }
 
-  // Fetch places from Firebase Realtime Database
   void loadPlaces() async {
     DatabaseReference ref = FirebaseDatabase.instance.ref("places");
     DatabaseEvent event = await ref.once();
 
     if (event.snapshot.value != null) {
       setState(() {
-        placesData = (event.snapshot.value as Map).values.toList();
+        placesData = (event.snapshot.value as Map)
+            .values
+            .map((e) => Map<String, dynamic>.from(e))
+            .toList();
       });
     } else {
       print('No data available!');
@@ -36,13 +38,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final List<String> imagePaths = [
-      "images/pngs/image-place-1.png",
-      "images/pngs/image-place-2.png",
-      "images/pngs/image-place-1.png",
-      "images/pngs/image-place-2.png",
-    ];
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -57,7 +52,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12.0, vertical: 8.0),
                       decoration: BoxDecoration(
                         color: const Color(0xFFF7F7F9),
                         borderRadius: BorderRadius.circular(20.0),
@@ -119,7 +115,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     TextButton(
                       onPressed: () {
-                        // function of ViewAll
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const SearchScreen()),
+                        );
                       },
                       child: const Text(
                         "View All",
@@ -136,90 +136,87 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 // Horizontal Image List with bookmark icon
                 SizedBox(
-                  height: 280, // Adjust the height to include both the image and text
+                  height: 280,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemCount: placesData.length,
                     itemBuilder: (context, index) {
                       var place = placesData[index];
                       return Container(
-                        width: 200, // Width of each item
+                        width: 200,
                         margin: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: SingleChildScrollView(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(16.0),
-                                child: Stack(
-                                  children: [
-                                    Image.asset(
-                                      imagePaths[index],
-                                      height: 220,
-                                      width: 200,
-                                      fit: BoxFit.cover,
-                                    ),
-                                    Positioned(
-                                      top: 10.0,
-                                      right: 10.0,
-                                      child: Image.asset(
-                                        "images/pngs/icon-bookmark.png",
-                                        height: 28.0,
-                                        width: 28.0,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(height: 8.0),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(16.0),
+                              child: Stack(
                                 children: [
-                                  Text(
-                                    place["name"] ?? "No Title", // Use title from the fetched data
+                                  Image.network(
+                                    place["imageUrl"] ?? "default_image_url",
+                                    height: 220,
+                                    width: 200,
+                                    fit: BoxFit.cover,
+                                  ),
+                                  Positioned(
+                                    top: 10.0,
+                                    right: 10.0,
+                                    child: Image.asset(
+                                      "images/pngs/icon-bookmark.png",
+                                      height: 28.0,
+                                      width: 28.0,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 8.0),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    place["name"] ?? "No Title",
                                     style: const TextStyle(
                                       fontSize: 14,
                                       fontFamily: "sf-ui-display-semibold",
                                       color: Colors.blue,
                                     ),
+                                    overflow: TextOverflow.ellipsis,
                                   ),
-                                  Row(
-                                    children: [
-                                      Image.asset(
-                                        "images/pngs/icon-star.png",
-                                      ),
-                                      const SizedBox(width: 8.0),
-                                      Text(
-                                        place["rating"].toString() ?? "0.0",
-                                        style: const TextStyle(
-                                          fontSize: 12,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 8.0),
-                              Row(
-                                children: [
-                                  Image.asset("images/pngs/icon-location.png"),
-                                  const SizedBox(width: 4.0), // Spacing between icon and text
-                                  Expanded(
-                                    child: Text(
-                                      place["location"] ?? "No Location", // Use location from the fetched data
+                                ),
+                                Row(
+                                  children: [
+                                    Image.asset("images/pngs/icon-star.png"),
+                                    const SizedBox(width: 8.0),
+                                    Text(
+                                      place["rating"]?.toString() ?? "0.0",
                                       style: const TextStyle(
                                         fontSize: 12,
-                                        color: Colors.grey,
                                       ),
-                                      overflow: TextOverflow.visible,
-                                      softWrap: true,
                                     ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 8.0),
+                            Row(
+                              children: [
+                                Image.asset("images/pngs/icon-location.png"),
+                                const SizedBox(width: 4.0),
+                                Expanded(
+                                  child: Text(
+                                    place["location"] ?? "No Location",
+                                    style: const TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.grey,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
                                   ),
-                                  Image.asset("images/pngs/icon-peoples.png"),
-                                ],
-                              ),
-                            ],
-                          ),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
                       );
                     },
@@ -234,7 +231,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     const Column(
                       children: [
                         Icon(Icons.home, size: 24.0, color: Colors.grey),
-                        Text("Home", style: TextStyle(color: Colors.grey, fontSize: 12)),
+                        Text("Home",
+                            style: TextStyle(color: Colors.grey, fontSize: 12)),
                       ],
                     ),
                     const Column(
@@ -246,13 +244,22 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     Column(
                       children: [
-                        Container(
-                          padding: EdgeInsets.all(8.0),
-                          decoration: BoxDecoration(
-                            color: Colors.blue,
-                            shape: BoxShape.circle,
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const SearchScreen()));
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(8.0),
+                            decoration: const BoxDecoration(
+                              color: Colors.blue,
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Icon(Icons.search,
+                                size: 24.0, color: Colors.white),
                           ),
-                          child: Icon(Icons.search, size: 24.0, color: Colors.white),
                         ),
                         const Text("Search",
                             style: TextStyle(color: Colors.blue, fontSize: 12)),

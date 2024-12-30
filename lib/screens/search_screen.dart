@@ -10,15 +10,24 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   var placesData = [];
+  var filteredPlaces = [];
+  final TextEditingController searchController = TextEditingController();
 
-  // Load data only once in initState
   @override
   void initState() {
     super.initState();
     loadPlaces();
+    searchController.addListener(() {
+      filterPlaces();
+    });
   }
 
-  // Fetch places from Firebase Realtime Database
+  @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
+  }
+
   void loadPlaces() async {
     DatabaseReference ref = FirebaseDatabase.instance.ref("places");
     DatabaseEvent event = await ref.once();
@@ -26,19 +35,27 @@ class _SearchScreenState extends State<SearchScreen> {
     if (event.snapshot.value != null) {
       setState(() {
         placesData = (event.snapshot.value as Map).values.toList();
+        filteredPlaces = List.from(placesData);
       });
     } else {
       print('No data available!');
     }
   }
 
+  void filterPlaces() {
+    String query = searchController.text.toLowerCase();
+    setState(() {
+      filteredPlaces = placesData.where((place) {
+        String name = place["name"]?.toLowerCase() ?? "";
+        return name.contains(query);
+      }).toList();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    // Determine number of columns based on screen width
     double screenWidth = MediaQuery.of(context).size.width;
-    int crossAxisCount = screenWidth > 600 ? 3 : 2; // 2 columns on mobile, 3 on larger screens
-
-    // Adjust the spacing dynamically
+    int crossAxisCount = screenWidth > 600 ? 3 : 2;
     double crossAxisSpacing = screenWidth > 600 ? 20.0 : 10.0;
     double mainAxisSpacing = screenWidth > 600 ? 20.0 : 12.0;
 
@@ -57,7 +74,9 @@ class _SearchScreenState extends State<SearchScreen> {
         ),
         actions: [
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              searchController.clear();
+            },
             child: const Text(
               'Cancel',
               style: TextStyle(color: Colors.blue),
@@ -74,6 +93,7 @@ class _SearchScreenState extends State<SearchScreen> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: TextField(
+                  controller: searchController,
                   decoration: InputDecoration(
                     hintText: 'Search Places',
                     prefixIcon: const Icon(Icons.search),
@@ -90,7 +110,7 @@ class _SearchScreenState extends State<SearchScreen> {
               const Padding(
                 padding: EdgeInsets.all(16.0),
                 child: Text(
-                  'Search Places',
+                  'Search Results',
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -101,26 +121,26 @@ class _SearchScreenState extends State<SearchScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 40),
                 child: GridView.builder(
                   shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: crossAxisCount,
-                    childAspectRatio: 0.8, // Adjust aspect ratio for wider cards
+                    childAspectRatio: 0.8,
                     crossAxisSpacing: crossAxisSpacing,
                     mainAxisSpacing: mainAxisSpacing,
                   ),
-                  itemCount: placesData.length,
+                  itemCount: filteredPlaces.length,
                   itemBuilder: (context, index) {
-                    var place = placesData[index];
+                    var place = filteredPlaces[index];
                     return Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(16.0),
-                        color: Colors.white, // Add a background color for better contrast
+                        color: Colors.white,
                         boxShadow: [
                           BoxShadow(
                             color: Colors.grey.withOpacity(0.2),
                             spreadRadius: 2,
                             blurRadius: 5,
-                            offset: Offset(0, 3),
+                            offset: const Offset(0, 3),
                           ),
                         ],
                       ),
@@ -131,8 +151,8 @@ class _SearchScreenState extends State<SearchScreen> {
                             borderRadius: BorderRadius.circular(16.0),
                             child: Image.network(
                               place["imageUrl"] ?? "default_image_url",
-                              height: 150, // Adjust height as needed
-                              width: double.infinity, // Use double.infinity for full width
+                              height: 150,
+                              width: double.infinity,
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -143,23 +163,23 @@ class _SearchScreenState extends State<SearchScreen> {
                               children: [
                                 Text(
                                   place["name"] ?? "No Title",
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                SizedBox(height: 4.0),
+                                const SizedBox(height: 4.0),
                                 Row(
                                   children: [
-                                    Icon(
+                                    const Icon(
                                       Icons.location_on,
                                       size: 16,
                                       color: Colors.grey,
                                     ),
-                                    SizedBox(width: 4.0),
+                                    const SizedBox(width: 4.0),
                                     Text(
                                       place["location"] ?? "No Location",
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: 12,
                                         color: Colors.grey,
                                       ),
@@ -167,10 +187,10 @@ class _SearchScreenState extends State<SearchScreen> {
                                     ),
                                   ],
                                 ),
-                                SizedBox(height: 4.0),
+                                const SizedBox(height: 4.0),
                                 Text(
                                   place["price"] ?? "No Price",
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 12,
                                     color: Colors.grey,
                                   ),

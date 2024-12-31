@@ -1,10 +1,13 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:travel_app/screens/booknow_screen.dart';
 import 'package:travel_app/screens/editprofile.dart';
 import 'package:travel_app/screens/forget_password_screen.dart';
 import 'package:travel_app/screens/home_screen.dart';
+import 'package:travel_app/screens/popularplaces_screen.dart';
 import 'package:travel_app/screens/search_screen.dart';
+import 'package:travel_app/screens/signup_screen.dart';
 import 'screens/splash_screen.dart';
 import 'firebase_options.dart';
 
@@ -37,7 +40,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Travel App',
-      home: SplashScreen(),
+      home: BookNowScreen(),
     );
   }
 }

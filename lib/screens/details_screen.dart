@@ -72,14 +72,14 @@ class DetailsScreen extends StatelessWidget {
             context: context,
             builder: (context) {
               return AlertDialog(
-                title: Text("Booking Done!"),
+                title: const Text("Booking Done!"),
                 content: Text("Your place has been successfully booked for $selectedDate."),
                 actions: [
                   TextButton(
                     onPressed: () {
                       Navigator.pop(context); // Close the dialog
                     },
-                    child: Text("OK"),
+                    child: const Text("OK"),
                   ),
                 ],
               );
@@ -106,11 +106,6 @@ class DetailsScreen extends StatelessWidget {
     );
     return selectedDate;
   }
-
-
-
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -205,16 +200,16 @@ class DetailsScreen extends StatelessWidget {
                     // Trigger the date selection and add to scheduled places
                     addScheduledPlaces(context,place);
                   },
-                  child: const Text(
-                    "Book Now",
-                    style: TextStyle(fontSize: 18),
-                  ),
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 40.0, vertical: 12.0), backgroundColor: Colors.blue,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12.0), // Rounded corners
                     ),
+                  ),
+                  child: const Text(
+                    "Book Now",
+                    style: TextStyle(fontSize: 18),
                   ),
                 ),
               ),

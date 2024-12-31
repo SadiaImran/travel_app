@@ -28,7 +28,7 @@ class _BookNowScreenState extends State<BookNowScreen> {
         });
 
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             content: Text('Booking successful!'),
             backgroundColor: Colors.green,
           ),
@@ -37,7 +37,7 @@ class _BookNowScreenState extends State<BookNowScreen> {
         _formKey.currentState!.reset();
       } catch (error) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             content: Text('Failed to book. Try again later.'),
             backgroundColor: Colors.red,
           ),

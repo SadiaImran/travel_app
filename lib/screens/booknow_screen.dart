@@ -19,27 +19,28 @@ class _BookNowScreenState extends State<BookNowScreen> {
       _formKey.currentState!.save();
 
       try {
-        // Create a unique key for the booking
         String bookingId = _database.child('bookings').push().key!;
 
-        // Add booking data to Firebase
         await _database.child('bookings/$bookingId').set({
           'date': _date,
           'location': _location,
           'persons': _persons,
         });
 
-        // Show success message
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Booking successful!')),
+          SnackBar(
+            content: Text('Booking successful!'),
+            backgroundColor: Colors.green,
+          ),
         );
 
-        // Reset form
         _formKey.currentState!.reset();
       } catch (error) {
-        // Show error message
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to book. Try again later.')),
+          SnackBar(
+            content: Text('Failed to book. Try again later.'),
+            backgroundColor: Colors.red,
+          ),
         );
       }
     }
@@ -48,35 +49,63 @@ class _BookNowScreenState extends State<BookNowScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-
+        backgroundColor: Colors.white,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: const Text(
+          'Book Now',
+          style: TextStyle(color: Colors.black),
+        ),
       ),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  'Book Now',
-                  style: TextStyle(
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold,
-                  ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Make Your Reservation',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
                 ),
-                SizedBox(height: 32),
-                Form(
-                  key: _formKey,
-                  child: Column(
-                    children: [
-                      // Date input
-                      TextFormField(
+              ),
+              const SizedBox(height: 8),
+              const Text(
+                'Please fill in the details below to book your place',
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.grey,
+                ),
+              ),
+              const SizedBox(height: 32),
+              Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    // Date input
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: TextFormField(
                         decoration: InputDecoration(
                           labelText: 'Date',
                           hintText: 'YYYY-MM-DD',
-                          border: OutlineInputBorder(),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: BorderSide.none,
+                          ),
+                          filled: true,
+                          fillColor: Colors.transparent,
+                          prefixIcon: Icon(Icons.calendar_today, color: Colors.grey),
+                          contentPadding: EdgeInsets.all(16),
                         ),
                         keyboardType: TextInputType.datetime,
                         validator: (value) {
@@ -87,13 +116,26 @@ class _BookNowScreenState extends State<BookNowScreen> {
                         },
                         onSaved: (value) => _date = value,
                       ),
-                      SizedBox(height: 16),
+                    ),
+                    const SizedBox(height: 20),
 
-                      // Location input
-                      TextFormField(
+
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: TextFormField(
                         decoration: InputDecoration(
                           labelText: 'Location',
-                          border: OutlineInputBorder(),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: BorderSide.none,
+                          ),
+                          filled: true,
+                          fillColor: Colors.transparent,
+                          prefixIcon: Icon(Icons.location_on, color: Colors.grey),
+                          contentPadding: EdgeInsets.all(16),
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -103,13 +145,26 @@ class _BookNowScreenState extends State<BookNowScreen> {
                         },
                         onSaved: (value) => _location = value,
                       ),
-                      SizedBox(height: 16),
+                    ),
+                    const SizedBox(height: 20),
 
-                      // Number of persons input
-                      TextFormField(
+
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: TextFormField(
                         decoration: InputDecoration(
                           labelText: 'Number of Persons',
-                          border: OutlineInputBorder(),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: BorderSide.none,
+                          ),
+                          filled: true,
+                          fillColor: Colors.transparent,
+                          prefixIcon: Icon(Icons.people, color: Colors.grey),
+                          contentPadding: EdgeInsets.all(16),
                         ),
                         keyboardType: TextInputType.number,
                         validator: (value) {
@@ -123,18 +178,35 @@ class _BookNowScreenState extends State<BookNowScreen> {
                         },
                         onSaved: (value) => _persons = int.parse(value!),
                       ),
-                      SizedBox(height: 24),
+                    ),
+                    const SizedBox(height: 32),
 
-                      // Submit button
-                      ElevatedButton(
+
+                    SizedBox(
+                      width: double.infinity,
+                      height: 50,
+                      child: ElevatedButton(
                         onPressed: _bookNow,
-                        child: Text('Book Now'),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          elevation: 0,
+                        ),
+                        child: const Text(
+                          'Book Now',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

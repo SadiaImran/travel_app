@@ -29,27 +29,40 @@ class _PopularPlacesScreenState extends State<PopularPlacesScreen> {
   }
 
   void loadPopularPlaces() async {
-    DatabaseReference ref = FirebaseDatabase.instance.ref("places");
-    DatabaseEvent event = await ref.once();
+    try {
+      DatabaseReference placesRef = FirebaseDatabase.instance.ref("places");
 
-    if (event.snapshot.value != null) {
-      // Convert the data to a list
-      var allPlaces = (event.snapshot.value as Map).values.toList();
+      DatabaseReference popularPlacesRef = FirebaseDatabase.instance.ref("popularPlaces");
 
-      // Sort places by rating (highest to lowest)
-      allPlaces.sort((a, b) {
-        double ratingA = double.tryParse(a["rating"]?.toString() ?? "0") ?? 0;
-        double ratingB = double.tryParse(b["rating"]?.toString() ?? "0") ?? 0;
-        return ratingB.compareTo(ratingA);
-      });
+      DatabaseEvent event = await placesRef.once();
 
-      setState(() {
-        // Take only the top 4 highest-rated places
-        placesData = allPlaces.take(4).toList();
-        filteredPlaces = List.from(placesData);
-      });
-    } else {
-      print('No data available!');
+      if (event.snapshot.value != null) {
+
+        var allPlaces = (event.snapshot.value as Map).values.toList();
+
+        allPlaces.sort((a, b) {
+          double ratingA = double.tryParse(a["rating"]?.toString() ?? "0") ?? 0;
+          double ratingB = double.tryParse(b["rating"]?.toString() ?? "0") ?? 0;
+          return ratingB.compareTo(ratingA);
+        });
+
+        var top4Places = allPlaces.take(4).toList();
+
+
+        await popularPlacesRef.set({
+          for (var i = 0; i < top4Places.length; i++)
+            'place_$i': top4Places[i]
+        });
+
+        setState(() {
+          placesData = top4Places;
+          filteredPlaces = List.from(placesData);
+        });
+      } else {
+        print('No data available!');
+      }
+    } catch (error) {
+      print('Error loading/storing popular places: $error');
     }
   }
 

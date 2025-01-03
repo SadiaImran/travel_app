@@ -1,16 +1,30 @@
-# travel_app
+Here’s a simpler, more straightforward version for your README:  
 
-A new Flutter project.
 
-## Getting Started
+# Travel App
 
-This project is a starting point for a Flutter application.
+This is a travel application that helps users plan their trips, book accommodations, and explore destination details.  
 
-A few resources to get you started if this is your first Flutter project:
+## Features
+- View popular travel destinations.
+- Book hotels and other services.
+- Personalized travel recommendations.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Installation
+1. Clone the repository:
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+   git clone https://github.com/SadiaImran/travel_app.git
+ 
+2. Navigate to the project directory:
+
+   cd travel_app
+
+3. Install dependencies:
+  
+   npm install
+
+4. Start the application:
+   
+   npm start
+
+*Created by Sadia Imran*

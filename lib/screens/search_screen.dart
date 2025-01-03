@@ -124,7 +124,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   physics: const NeverScrollableScrollPhysics(),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: crossAxisCount,
-                    childAspectRatio: 0.8,
+                    childAspectRatio: 0.5,
                     crossAxisSpacing: crossAxisSpacing,
                     mainAxisSpacing: mainAxisSpacing,
                   ),
@@ -149,7 +149,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         children: [
                           ClipRRect(
                             borderRadius: BorderRadius.circular(16.0),
-                            child: Image.network(
+                            child: Image.asset(
                               place["imageUrl"] ?? "default_image_url",
                               height: 150,
                               width: double.infinity,

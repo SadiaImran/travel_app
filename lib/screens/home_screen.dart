@@ -291,7 +291,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 BorderRadius.circular(16.0),
                                 child: Stack(
                                   children: [
-                                    Image.network(
+                                    Image.asset(
                                       place["imageUrl"] ??
                                           "default_image_url",
                                       height: 120,
@@ -367,7 +367,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 BorderRadius.circular(16.0),
                                 child: Stack(
                                   children: [
-                                    Image.network(
+                                    Image.asset(
                                       place["imageUrl"] ??
                                           "default_image_url",
                                       height: 220,

@@ -120,7 +120,7 @@ class DetailsScreen extends StatelessWidget {
             // Image
             ClipRRect(
               borderRadius: BorderRadius.circular(16.0),
-              child: Image.network(
+              child: Image.asset(
                 place["imageUrl"] ?? "default_image_url",
                 height: 250,
                 width: double.infinity,

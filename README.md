@@ -1,4 +1,4 @@
-Here’s a simpler, more straightforward version for your README:  
+
 
 
 # Travel App

@@ -1,3 +1,9 @@
+It looks like you want to add images to your README file for the Travel App. Here's how you can modify your README with image placeholders for each section. You'll need to upload the images to a folder in your repository (like an `/assets/images` folder) and then link them accordingly.
+
+Here's an updated version of your README with image placeholders:
+
+---
+
 # 🌍 Travel App
 
 ## ✨ Overview
@@ -9,6 +15,15 @@ The **Travel App** is a Flutter-based application designed to help users explore
 - 🏨 Book hotels and other travel services
 - 🎯 Receive personalized travel recommendations
 - 📱 Enjoy a user-friendly and responsive design
+
+### Example Screenshots:
+- **Discover Travel Destinations**:
+  ![Discover Destinations](assets/images/screenshot-home.png)
+- **Access Detailed Information**:
+  ![Destination Details](assets/images/screenshot-profile.png)
+- **Book Hotels**:
+- **Personalized Recommendations**:
+- **User Interface**:
 
 ## 🛠 Installation
 ### 📋 Prerequisites
@@ -47,3 +62,4 @@ We welcome contributions! To contribute:
 ## 📞 Contact
 For inquiries or collaboration opportunities, reach out to **Sadia Imran** via [GitHub](https://github.com/SadiaImran).
 
+---

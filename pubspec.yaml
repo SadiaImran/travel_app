@@ -117,6 +117,8 @@ flutter:
      - images/pngs/image-place-4.png
      - images/pngs/image-place-5.png
      - images/pngs/image-place-6.png
+     - images/pngs/screenshot-profile.png
+     - images/pngs/screenshot-home.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 
@@ -148,7 +150,7 @@ flutter:
         
     - family: GillSansMT
       fonts:
-        - asset : fonts/gil-sans-mt.TTF
+        - asset : fonts/gil-sans-mt.ttf
         
     - family: SFUIDisplay
       fonts:

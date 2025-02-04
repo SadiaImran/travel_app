@@ -10,7 +10,7 @@ import 'editprofile.dart';
 class HomeScreen extends StatefulWidget {
   final String username;
 
-  const HomeScreen({Key? key, required this.username}) : super(key: key);
+  const HomeScreen({super.key, required this.username});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -516,7 +516,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              PopularPlacesScreen(),
+                              const PopularPlacesScreen(),
                         ),
                       );
                     },

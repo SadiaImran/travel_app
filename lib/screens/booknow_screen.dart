@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 class BookNowScreen extends StatefulWidget {
+  const BookNowScreen({super.key});
+
   @override
   _BookNowScreenState createState() => _BookNowScreenState();
 }
@@ -104,8 +106,8 @@ class _BookNowScreenState extends State<BookNowScreen> {
                           ),
                           filled: true,
                           fillColor: Colors.transparent,
-                          prefixIcon: Icon(Icons.calendar_today, color: Colors.grey),
-                          contentPadding: EdgeInsets.all(16),
+                          prefixIcon: const Icon(Icons.calendar_today, color: Colors.grey),
+                          contentPadding: const EdgeInsets.all(16),
                         ),
                         keyboardType: TextInputType.datetime,
                         validator: (value) {
@@ -134,8 +136,8 @@ class _BookNowScreenState extends State<BookNowScreen> {
                           ),
                           filled: true,
                           fillColor: Colors.transparent,
-                          prefixIcon: Icon(Icons.location_on, color: Colors.grey),
-                          contentPadding: EdgeInsets.all(16),
+                          prefixIcon: const Icon(Icons.location_on, color: Colors.grey),
+                          contentPadding: const EdgeInsets.all(16),
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -163,8 +165,8 @@ class _BookNowScreenState extends State<BookNowScreen> {
                           ),
                           filled: true,
                           fillColor: Colors.transparent,
-                          prefixIcon: Icon(Icons.people, color: Colors.grey),
-                          contentPadding: EdgeInsets.all(16),
+                          prefixIcon: const Icon(Icons.people, color: Colors.grey),
+                          contentPadding: const EdgeInsets.all(16),
                         ),
                         keyboardType: TextInputType.number,
                         validator: (value) {

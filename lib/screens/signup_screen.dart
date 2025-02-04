@@ -2,7 +2,6 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:travel_app/screens/signin_screen.dart';
-import 'package:travel_app/screens/verification_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -68,7 +67,7 @@ class _SignupScreenState extends State<SignUpScreen> {
         // Navigate to verification screen or home
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) =>  SignInScreen()),
+          MaterialPageRoute(builder: (context) =>  const SignInScreen()),
         );
       }
 
@@ -215,7 +214,7 @@ class _SignupScreenState extends State<SignUpScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => SignInScreen(),
+                              builder: (context) => const SignInScreen(),
                             ),
                           );
                         },

@@ -154,7 +154,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
               controller: emailController,
               decoration: InputDecoration(
                 hintText: "your-email@example.com",
-                hintStyle: TextStyle(color: AppColors.darkText),
+                hintStyle: const TextStyle(color: AppColors.darkText),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                   borderSide: BorderSide.none,

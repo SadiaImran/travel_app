@@ -5,7 +5,7 @@ import 'package:firebase_database/firebase_database.dart';
 class DetailsScreen extends StatelessWidget {
   final Map<String, dynamic> place;
 
-  const DetailsScreen({Key? key, required this.place}) : super(key: key);
+  const DetailsScreen({super.key, required this.place});
 
   void addScheduledPlaces(BuildContext context, Map<String, dynamic> place) async {
     // Get the current user

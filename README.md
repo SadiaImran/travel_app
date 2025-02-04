@@ -18,9 +18,9 @@ The **Travel App** is a Flutter-based application designed to help users explore
 
 ### Example Screenshots:
 - **Discover Travel Destinations**:
-  ![Discover Destinations](assets/images/screenshot-home.png)
+  ![Discover Destinations](images/pngs/screenshot-home.png)
 - **Access Detailed Information**:
-  ![Destination Details](assets/images/screenshot-profile.png)
+  ![Destination Details](images/pngs/screenshot-profile.png)
 - **Book Hotels**:
 - **Personalized Recommendations**:
 - **User Interface**:

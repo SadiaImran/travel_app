@@ -1,7 +1,3 @@
-It looks like you want to add images to your README file for the Travel App. Here's how you can modify your README with image placeholders for each section. You'll need to upload the images to a folder in your repository (like an `/assets/images` folder) and then link them accordingly.
-
-Here's an updated version of your README with image placeholders:
-
 ---
 
 # 🌍 Travel App
